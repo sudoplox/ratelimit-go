@@ -1,12 +1,18 @@
 # ratelimit-go
 
+## cd into the folder
+eg:
+```
+cd per-client-rate-limiting
+```
+
 ## To run the server
 
 ```
 go run .
 ```
 
-## To test token-bucket
+## To test 
 
 ```
 $ for i in {1..6}; do curl http://localhost:8080/ping; done
