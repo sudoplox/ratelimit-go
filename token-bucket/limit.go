@@ -12,7 +12,7 @@ func rateLimiter(next func(wr http.ResponseWriter, req *http.Request)) http.Hand
 	// Create a limiter that allows 2 requests per second with a maximum burst of 4
 	limiter := rate.NewLimiter(2, 4)
 
-	return http.HandlerFunc(func(wr http.ResponseWriter, req *http.Request) {
+	return http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 
 		// If the limiter is not allowing the request, return an error
 		if !limiter.Allow() {
@@ -20,12 +20,12 @@ func rateLimiter(next func(wr http.ResponseWriter, req *http.Request)) http.Hand
 				Status: "Request Failed",
 				Body:   "The API is at capacity, please try again later.",
 			}
-			wr.WriteHeader(http.StatusTooManyRequests) // 429
-			json.NewEncoder(wr).Encode(&message)
+			rw.WriteHeader(http.StatusTooManyRequests) // 429
+			json.NewEncoder(rw).Encode(&message)
 			return
 		} else {
 			// If the limiter allows the request, call the next handler
-			next(wr, req)
+			next(rw, req)
 		}
 	})
 }
